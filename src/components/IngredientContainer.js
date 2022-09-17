@@ -8,7 +8,7 @@ class IngredientContainer extends React.Component {
       return <Ingredient key={index} value={item.value} />;
     });
     return (
-      <article className="w3-half">
+      <article id="ingredients" className="w3-half">
         <h1>Ingredients</h1>
         <ul className="ingredientList">
           {listItems}
