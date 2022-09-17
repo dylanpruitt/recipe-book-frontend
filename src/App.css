@@ -6,3 +6,9 @@
 .ingredient:hover {
   background-color: lightgrey;
 }
+
+@media only screen and (min-width: 768px) {
+  #ingredients {
+      position: fixed;
+  }
+}
