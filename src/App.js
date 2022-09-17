@@ -54,7 +54,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const thisScope = this;
-    socket = io('http://localhost:3001');
+    socket = io('https://dpruitt-recipes-backend.herokuapp.com/');
 
     socket.on('recipe query', function (query) {
       recipes = query.results.map(i => parseRecipeData(i));
