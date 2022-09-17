@@ -55,6 +55,7 @@ class App extends React.Component {
   componentDidMount() {
     const thisScope = this;
     socket = io('https://dpruitt-recipes-backend.herokuapp.com/');
+    console.log("MOUNTED COMP");
 
     socket.on('recipe query', function (query) {
       recipes = query.results.map(i => parseRecipeData(i));
@@ -63,6 +64,9 @@ class App extends React.Component {
     });
     socket.on('upload status', function (status) {
       thisScope.setState({ uploadStatus: status });
+    });
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
     });
   }
 
