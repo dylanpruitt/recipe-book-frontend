@@ -7,7 +7,7 @@
   background-color: lightgrey;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (orientation: landscape) {
   #ingredients {
       position: fixed;
   }
