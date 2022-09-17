@@ -55,7 +55,7 @@ class App extends React.Component {
   componentDidMount() {
     const thisScope = this;
     socket = io('https://dpruitt-recipes-backend.herokuapp.com/', {
-      transports: ['websocket']
+      transports: ["polling", "websocket"]
    });
     console.log("MOUNTED COMP");
 
