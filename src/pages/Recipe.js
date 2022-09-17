@@ -2,7 +2,6 @@ import React from 'react';
 import DirectionContainer from '.././components/DirectionContainer.js';
 import IngredientContainer from '.././components/IngredientContainer.js';
 import RecipeHeader from '.././components/RecipeHeader.js';
-import './Recipe.css';
 
 function Recipe(props) {
     const index  = props.index;
