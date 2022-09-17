@@ -6,9 +6,3 @@
 .ingredient:hover {
   background-color: lightgrey;
 }
-
-@media only screen and (orientation: landscape) {
-  #ingredients {
-      position: fixed;
-  }
-}
