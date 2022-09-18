@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import DirectionList from "../components/DirectionList"
 import IngredientList from "../components/IngredientList"
 
+const defaultState = {
+    name: " ",
+    description: " ",
+    ingredients: [],
+    directions: [],
+    uploadedIndex: 0,
+}
 class Upload extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +27,10 @@ class Upload extends React.Component {
         this.addIngredient = this.addIngredient.bind(this);
         this.removeDirection = this.removeDirection.bind(this);
         this.addDirection = this.addDirection.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState(defaultState);
     }
 
     handleInputChange(event) {
