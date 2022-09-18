@@ -8,7 +8,7 @@ import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
 import Search from './pages/Search';
 import About from './pages/About';
-import About from './pages/Home';
+import Home from './pages/Home';
 import Upload from './pages/Upload';
 import NoPage from './pages/NoPage';
 import './App.css';
