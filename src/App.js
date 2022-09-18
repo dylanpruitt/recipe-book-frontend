@@ -68,7 +68,8 @@ class App extends React.Component {
     });
     socket.on('upload status', function (status) {
       console.log(status);
-      console.log(Symbol.for(status));
+      console.log(Symbol(status) === UploadStatus.SUCCESS);
+      console.log(Symbol(status) == UploadStatus.SUCCESS);
       thisScope.updateStatus(status);
     });
     socket.on("connect_error", (err) => {
