@@ -6,7 +6,7 @@ function ResultsTable(props) {
         return <RecipeLink key={index} name={item.title} description={item.description} onClick={() => props.onClick(index)} />;
     }).filter((item) => {
         return item.props.name.toLowerCase().includes(props.filter.toLowerCase())
-    });
+    }).slice(0, 25);
 
     return (
         <table className="w3-table-all w3-margin-top">
