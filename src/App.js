@@ -67,6 +67,7 @@ class App extends React.Component {
       thisScope.setState({ loadedRecipes: recipes });
     });
     socket.on('upload status', function (status) {
+      console.log(status);
       thisScope.updateStatus(status);
     });
     socket.on("connect_error", (err) => {
