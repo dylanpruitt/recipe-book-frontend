@@ -2,6 +2,8 @@ import React from 'react';
 import io from "socket.io-client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import UploadStatus from './UploadStatus';
+
 import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
 import Search from './pages/Search';
@@ -45,7 +47,7 @@ class App extends React.Component {
         }
       ],
       recipeIndex: 0,
-      uploadStatus: 'UNUSED'
+      uploadStatus: UploadStatus.UNUSED
     };
 
     this.setRecipeIndex = this.setRecipeIndex.bind(this);
@@ -64,7 +66,7 @@ class App extends React.Component {
       thisScope.setState({ loadedRecipes: recipes });
     });
     socket.on('upload status', function (status) {
-      thisScope.setState({ uploadStatus: status });
+      thisScope.updateStatus(status);
     });
     socket.on("connect_error", (err) => {
       console.log(`connect_error due to ${err.message}`);

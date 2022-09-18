@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import DirectionList from "../components/DirectionList"
 import IngredientList from "../components/IngredientList"
 
+import UploadStatus from './UploadStatus';
+
 const defaultState = {
     name: " ",
     description: " ",
@@ -31,7 +33,7 @@ class Upload extends React.Component {
 
     componentDidMount() {
         this.setState(defaultState);
-        this.props.update('UNUSED');
+        this.props.update(UploadStatus.UNUSED);
         console.log("Reset upload state");
     }
 
@@ -47,7 +49,7 @@ class Upload extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.update('PENDING');
+        this.props.update(UploadStatus.PENDING);
 
         if (this.stateIsValid()) {
             console.log(this.state);
@@ -57,7 +59,7 @@ class Upload extends React.Component {
             })
             this.props.socket.emit("database submission", this.state);
         } else {
-            this.props.update('ERROR');
+            this.props.update(UploadStatus.ERROR);
         }
 
     }
@@ -106,19 +108,19 @@ class Upload extends React.Component {
         const status = this.props.status;
         var statusText = null;
 
-        if (status === 'SUCCESS') {
+        if (status === UploadStatus.SUCCESS) {
             statusText = <p className="w3-panel w3-green">
                 Upload successful. You can view your new recipe <Link
                     to="/" onClick={() => {
                         this.props.setRecipeIndex(this.state.uploadedIndex);
-                        this.props.update('UNUSED');
+                        this.props.update(UploadStatus.UNUSED);
                     }}>
                     here
                 </Link>.
             </p>;
-        } else if (status === 'ERROR') {
+        } else if (status === UploadStatus.ERROR) {
             statusText = <p className="w3-panel w3-red">Error uploading.</p>;
-        } else if (status === 'PENDING') {
+        } else if (status === UploadStatus.PENDING) {
             statusText = <p className="w3-panel w3-blue">Submitting...</p>;
         }
 
