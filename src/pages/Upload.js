@@ -31,6 +31,8 @@ class Upload extends React.Component {
 
     componentDidMount() {
         this.setState(defaultState);
+        this.props.update('UNUSED');
+        console.log("Reset upload state");
     }
 
     handleInputChange(event) {
