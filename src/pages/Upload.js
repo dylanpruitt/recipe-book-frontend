@@ -107,7 +107,6 @@ class Upload extends React.Component {
     render() {
         const status = this.props.status;
         var statusText = null;
-        console.log(status);
         if (status === UploadStatus.SUCCESS) {
             statusText = <p className="w3-panel w3-green">
                 Upload successful. You can view your new recipe <Link
