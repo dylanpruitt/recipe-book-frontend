@@ -1,8 +1,8 @@
 const UploadStatus = {
-    UNUSED: Symbol("unused"),
-    PENDING: Symbol("pending"),
-    SUCCESS: Symbol("success"),
-    ERROR: Symbol("error"),
+    UNUSED: "unused",
+    PENDING: "pending",
+    SUCCESS: "success",
+    ERROR: "error",
 };
 Object.freeze(UploadStatus);
 
