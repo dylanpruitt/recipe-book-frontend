@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import DirectionList from "../components/DirectionList"
 import IngredientList from "../components/IngredientList"
 
-import UploadStatus from './UploadStatus';
+import UploadStatus from '../utils/UploadStatus';
 
 const defaultState = {
     name: " ",

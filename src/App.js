@@ -2,7 +2,7 @@ import React from 'react';
 import io from "socket.io-client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import UploadStatus from './UploadStatus';
+import UploadStatus from './utils/UploadStatus';
 
 import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
