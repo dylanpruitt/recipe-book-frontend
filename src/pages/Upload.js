@@ -9,7 +9,8 @@ class Upload extends React.Component {
             name: " ",
             description: " ",
             ingredients: [],
-            directions: []
+            directions: [],
+            uploadedIndex: 0,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -36,7 +37,10 @@ class Upload extends React.Component {
 
         if (this.stateIsValid()) {
             console.log(this.state);
-
+            const numRecipes = this.props.getNumRecipes();
+            this.setState({
+                uploadedIndex: numRecipes + 1
+            })
             this.props.socket.emit("database submission", this.state);
         } else {
             this.props.update('ERROR');
@@ -89,7 +93,12 @@ class Upload extends React.Component {
         var statusText = null;
 
         if (status === 'SUCCESS') {
-            statusText = <p className="w3-panel w3-green">Upload successful.</p>;
+            statusText = <p className="w3-panel w3-green">
+                Upload successful. You can view your new recipe <Link
+                    to="/" onClick={() => this.props.setRecipeIndex(this.state.uploadedIndex)}>
+                    here
+                </Link>.
+            </p>;
         } else if (status === 'ERROR') {
             statusText = <p className="w3-panel w3-red">Error uploading.</p>;
         } else if (status === 'PENDING') {
@@ -103,11 +112,11 @@ class Upload extends React.Component {
                 </header>
                 <section className="w3-container w3-padding">
                     <p>Name:</p>
-                        <input type="text"
-                            name="name"
-                            className="w3-input w3-border"
-                            value={this.state.name}
-                            onChange={this.handleInputChange} />
+                    <input type="text"
+                        name="name"
+                        className="w3-input w3-border"
+                        value={this.state.name}
+                        onChange={this.handleInputChange} />
                     <br />
                     <p>Description:</p>
                     <textarea

@@ -48,17 +48,16 @@ class App extends React.Component {
       uploadStatus: 'UNUSED'
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.setRecipeIndex = this.setRecipeIndex.bind(this);
+    this.getNumRecipes = this.getNumRecipes.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
   }
 
   componentDidMount() {
     const thisScope = this;
     socket = io('https://dpruitt-recipes-backend.herokuapp.com/', {
-      transports: ["websocket"]
-   });
-    console.log("MOUNTED COMP");
-
+      transports: ["websocket", "polling"]
+    });
     socket.on('recipe query', function (query) {
       recipes = query.results.map(i => parseRecipeData(i));
       console.log("Updated recipes");
@@ -72,8 +71,12 @@ class App extends React.Component {
     });
   }
 
-  handleClick(i) {
+  setRecipeIndex(i) {
     this.setState({ recipeIndex: i });
+  }
+
+  getNumRecipes() {
+    return this.state.loadedRecipes.length;
   }
 
   updateStatus(status) {
@@ -86,13 +89,14 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />} />
-            <Route path="/Search" element={<Search recipes={this.state.loadedRecipes} onClick={this.handleClick} />} />
+            <Route path="/Search" element={<Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />} />
             <Route path="/Upload" element={<Upload
               socket={socket}
               status={this.state.uploadStatus}
-              update={this.updateStatus} 
-              setRecipeIndex={this.handleClick} />} 
-              />
+              update={this.updateStatus}
+              setRecipeIndex={this.setRecipeIndex} 
+              getNumRecipes={this.getNumRecipes} />}
+            />
             <Route path="/About" element={<About />} />
             <Route path="*" element={<NoPage />} />
           </Route>
