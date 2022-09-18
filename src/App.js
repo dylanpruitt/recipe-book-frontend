@@ -8,6 +8,7 @@ import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
 import Search from './pages/Search';
 import About from './pages/About';
+import About from './pages/Home';
 import Upload from './pages/Upload';
 import NoPage from './pages/NoPage';
 import './App.css';
@@ -90,7 +91,7 @@ class App extends React.Component {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />} />
+            <Route index element={<Home />} />
             <Route path="/Search" element={<Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />} />
             <Route path="/Upload" element={<Upload
               socket={socket}
@@ -99,6 +100,7 @@ class App extends React.Component {
               setRecipeIndex={this.setRecipeIndex} 
               getNumRecipes={this.getNumRecipes} />}
             />
+            <Route path="/Recipe" element={<Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />} />
             <Route path="/About" element={<About />} />
             <Route path="*" element={<NoPage />} />
           </Route>
