@@ -8,6 +8,7 @@ import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
 import Search from './pages/Search';
 import About from './pages/About';
+import Loading from './pages/Loading';
 import Home from './pages/Home';
 import Upload from './pages/Upload';
 import NoPage from './pages/NoPage';
@@ -92,7 +93,7 @@ class App extends React.Component {
   }
 
   render() {
-    const search = recipesDidLoad ? (
+    const search = this.state.recipesDidLoad ? (
       <Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />
     ) : (
       <Loading />
