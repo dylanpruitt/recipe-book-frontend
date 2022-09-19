@@ -47,6 +47,7 @@ class App extends React.Component {
           directions: []
         }
       ],
+      recipesDidLoad: false,
       recipeIndex: 0,
       uploadStatus: UploadStatus.UNUSED
     };
@@ -64,7 +65,11 @@ class App extends React.Component {
     socket.on('recipe query', function (query) {
       recipes = query.results.map(i => parseRecipeData(i));
       console.log("Updated recipes");
-      thisScope.setState({ loadedRecipes: recipes });
+      thisScope.setState({
+        loadedRecipes: recipes,
+        recipesDidLoad: true,
+      });
+      console.log(this.state.recipesDidLoad);
     });
     socket.on('upload status', function (status) {
       thisScope.updateStatus(status);
@@ -87,17 +92,22 @@ class App extends React.Component {
   }
 
   render() {
+    const search = recipesDidLoad ? (
+      <Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />
+    ) : (
+      <Loading />
+    );
     return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/Search" element={<Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />} />
+            <Route path="/Search" element={search} />
             <Route path="/Upload" element={<Upload
               socket={socket}
               status={this.state.uploadStatus}
               update={this.updateStatus}
-              setRecipeIndex={this.setRecipeIndex} 
+              setRecipeIndex={this.setRecipeIndex}
               getNumRecipes={this.getNumRecipes} />}
             />
             <Route path="/Recipe" element={<Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />} />
