@@ -77,9 +77,15 @@ class App extends React.Component {
     socket.on("connect_error", (err) => {
       console.log(`connect_error due to ${err.message}`);
     });
+
+    if (localStorage.recipeIndex != null) {
+      console.log("Remembered user's saved recipe.");
+      this.setState({ recipeIndex: localStorage.recipeIndex });
+    }
   }
 
   setRecipeIndex(i) {
+    localStorage.setItem("recipeIndex", i);
     this.setState({ recipeIndex: i });
   }
 
