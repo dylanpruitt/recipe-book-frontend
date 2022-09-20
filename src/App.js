@@ -98,6 +98,12 @@ class App extends React.Component {
     ) : (
       <Loading />
     );
+    const recipe = this.state.recipesDidLoad ? (
+      <Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />
+    ) : (
+      <Loading />
+    );
+
     return (
       <BrowserRouter>
         <Routes>
@@ -111,7 +117,7 @@ class App extends React.Component {
               setRecipeIndex={this.setRecipeIndex}
               getNumRecipes={this.getNumRecipes} />}
             />
-            <Route path="/Recipe" element={<Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />} />
+            <Route path="/Recipe" element={recipe} />
             <Route path="/About" element={<About />} />
             <Route path="*" element={<NoPage />} />
           </Route>
