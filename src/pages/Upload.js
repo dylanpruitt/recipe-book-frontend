@@ -17,8 +17,8 @@ class Upload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: " ",
-            description: " ",
+            name: "",
+            description: "",
             ingredients: [],
             directions: [],
             uploadedIndex: 0,
