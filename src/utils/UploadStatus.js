@@ -3,6 +3,7 @@ const UploadStatus = {
     PENDING: "pending",
     SUCCESS: "success",
     ERROR: "error",
+    NODUPES: "nodupes"
 };
 Object.freeze(UploadStatus);
 

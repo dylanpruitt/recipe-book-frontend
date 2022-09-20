@@ -11,6 +11,7 @@ const defaultState = {
     ingredients: [],
     directions: [],
     uploadedIndex: 0,
+    submissionChanged: false,
 }
 class Upload extends React.Component {
     constructor(props) {
@@ -54,13 +55,17 @@ class Upload extends React.Component {
         this.props.update(UploadStatus.PENDING);
 
         if (this.stateIsValid()) {
-            console.log(this.state);
-            const numRecipes = this.props.getNumRecipes();
-            this.setState({
-                uploadedIndex: numRecipes + 1,
-                submissionChanged: false,
-            })
-            this.props.socket.emit("database submission", this.state);
+            if (this.state.submissionChanged) {
+                console.log(this.state);
+                const numRecipes = this.props.getNumRecipes();
+                this.setState({
+                    uploadedIndex: numRecipes + 1,
+                    submissionChanged: false,
+                })
+                this.props.socket.emit("database submission", this.state);
+            } else {
+                this.props.update(UploadStatus.NODUPES);
+            }
         } else {
             this.props.update(UploadStatus.ERROR);
         }
@@ -68,8 +73,6 @@ class Upload extends React.Component {
     }
 
     stateIsValid() {
-        if (!this.state.submissionChanged) { return false; }
-
         var name = this.state.name;
         var desc = this.state.description;
         var ingredients = this.state.ingredients;
@@ -88,25 +91,25 @@ class Upload extends React.Component {
     removeIngredient(i) {
         var temp = this.state.ingredients.slice();
         temp.splice(i, 1);
-        this.setState({ ingredients: temp });
+        this.setState({ ingredients: temp, submissionChanged: true });
     }
 
     addIngredient(item) {
         var temp = this.state.ingredients.slice();
         temp.push(item);
-        this.setState({ ingredients: temp });
+        this.setState({ ingredients: temp, submissionChanged: true });
     }
 
     removeDirection(i) {
         var temp = this.state.directions.slice();
         temp.splice(i, 1);
-        this.setState({ directions: temp });
+        this.setState({ directions: temp, submissionChanged: true });
     }
 
     addDirection(item) {
         var temp = this.state.directions.slice();
         temp.push(item);
-        this.setState({ directions: temp });
+        this.setState({ directions: temp, submissionChanged: true });
     }
 
     render() {
@@ -124,6 +127,8 @@ class Upload extends React.Component {
             </p>;
         } else if (status === UploadStatus.ERROR) {
             statusText = <p className="w3-panel w3-red">Error uploading.</p>;
+        } else if (status === UploadStatus.NODUPES) {
+            statusText = <p className="w3-panel w3-yellow">Recipe already uploaded.</p>;
         } else if (status === UploadStatus.PENDING) {
             statusText = <p className="w3-panel w3-blue">Submitting...</p>;
         }
