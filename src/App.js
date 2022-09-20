@@ -70,7 +70,6 @@ class App extends React.Component {
         loadedRecipes: recipes,
         recipesDidLoad: true,
       });
-      console.log(this.state.recipesDidLoad);
     });
     socket.on('upload status', function (status) {
       thisScope.updateStatus(status);
