@@ -21,6 +21,7 @@ class Upload extends React.Component {
             ingredients: [],
             directions: [],
             uploadedIndex: 0,
+            submissionChanged: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,7 +44,8 @@ class Upload extends React.Component {
         const name = target.name;
 
         this.setState({
-            [name]: value
+            [name]: value,
+            submissionChanged: true
         });
     }
 
@@ -55,7 +57,8 @@ class Upload extends React.Component {
             console.log(this.state);
             const numRecipes = this.props.getNumRecipes();
             this.setState({
-                uploadedIndex: numRecipes + 1
+                uploadedIndex: numRecipes + 1,
+                submissionChanged: false,
             })
             this.props.socket.emit("database submission", this.state);
         } else {
@@ -65,6 +68,8 @@ class Upload extends React.Component {
     }
 
     stateIsValid() {
+        if (!this.state.submissionChanged) { return false; }
+
         var name = this.state.name;
         var desc = this.state.description;
         var ingredients = this.state.ingredients;
