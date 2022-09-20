@@ -16,7 +16,7 @@ const defaultState = {
 class Upload extends React.Component {
     constructor(props) {
         super(props);
-        this.setState(defaultState);
+        this.state = defaultState;
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
