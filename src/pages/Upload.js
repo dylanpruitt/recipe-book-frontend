@@ -6,8 +6,8 @@ import IngredientList from "../components/IngredientList"
 import UploadStatus from '../utils/UploadStatus';
 
 const defaultState = {
-    name: " ",
-    description: " ",
+    name: "",
+    description: "",
     ingredients: [],
     directions: [],
     uploadedIndex: 0,
@@ -16,14 +16,7 @@ const defaultState = {
 class Upload extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: "",
-            description: "",
-            ingredients: [],
-            directions: [],
-            uploadedIndex: 0,
-            submissionChanged: false,
-        };
+        this.setState(defaultState);
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
