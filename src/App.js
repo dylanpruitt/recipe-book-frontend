@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import UploadStatus from './utils/UploadStatus';
+import parseRecipeData from './parseRecipeData';
 
 import Recipe from './pages/Recipe';
 import Layout from './pages/Layout';
@@ -17,24 +18,6 @@ import './w3.css';
 
 var socket;
 var recipes = [];
-
-function parseRecipeData(recipe) {
-  let parsedObj = {
-    title: recipe.name,
-    description: recipe.description,
-    ingredients: recipe.ingredients,
-    directions: recipe.diretions,
-  };
-
-  parsedObj.ingredients = recipe.ingredients.map((item) => {
-    return { value: item };
-  });
-  parsedObj.directions = recipe.directions.map((item) => {
-    return { value: item };
-  });
-
-  return parsedObj;
-}
 
 class App extends React.Component {
   constructor(props) {
