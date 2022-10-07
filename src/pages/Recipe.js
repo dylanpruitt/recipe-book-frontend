@@ -16,7 +16,7 @@ function Recipe(props) {
         <div className="Recipe">
             <RecipeHeader name={title} description={description} />
             <div class="w3-container w3-hide-medium w3-hide-large w3-blue">
-                <p>You can turn your phone to landscape mode to view recipes.</p>
+                <p>You can also view recipes in landscape mode.</p>
             </div>
             <section className="w3-row-padding">
                 <IngredientContainer ingredients={ingredients} />
