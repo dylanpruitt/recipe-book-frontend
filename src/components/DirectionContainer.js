@@ -7,7 +7,7 @@ class DirectionContainer extends React.Component {
       return <p key={index}> {item.value} </p>;
     });
     return (
-      <article className="w3-half w3-right" style={{overflowY:'auto'}}>
+      <article className="w3-half w3-right" style={{overflowY:'scroll'}}>
         <h1>Directions</h1>
         {listItems}
       </article>
