@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import io from "socket.io-client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -19,43 +19,26 @@ import './w3.css';
 var socket;
 var recipes = [];
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loadedRecipes: [
-        {
-          title: "test",
-          description: "test",
-          ingredients: [],
-          directions: []
-        }
-      ],
-      recipesDidLoad: false,
-      recipeIndex: 0,
-      uploadStatus: UploadStatus.UNUSED
-    };
+export default function App() {
+  let [loadedRecipes, setLoadedRecipes] = useState([]);
+  let [recipeIndex, setRecipeIndex] = useState(0);
 
-    this.setRecipeIndex = this.setRecipeIndex.bind(this);
-    this.getNumRecipes = this.getNumRecipes.bind(this);
-    this.updateStatus = this.updateStatus.bind(this);
-  }
+  let [recipesDidLoad, setLoadStatus] = useState(false);
+  let [uploadStatus, setUploadStatus] = useState(UploadStatus.UNUSED);
 
-  componentDidMount() {
-    const thisScope = this;
+  useEffect(() => {
     socket = io('https://dpruitt-recipes-backend.herokuapp.com/', {
       transports: ["websocket", "polling"]
     });
     socket.on('recipe query', function (query) {
       recipes = query.results.map(i => parseRecipeData(i));
       console.log("Updated recipes");
-      thisScope.setState({
-        loadedRecipes: recipes,
-        recipesDidLoad: true,
-      });
+
+      setLoadedRecipes(recipes);
+      setLoadStatus(true);
     });
     socket.on('upload status', function (status) {
-      thisScope.updateStatus(status);
+      setUploadStatus(status);
     });
     socket.on("connect_error", (err) => {
       console.log(`connect_error due to ${err.message}`);
@@ -63,56 +46,39 @@ class App extends React.Component {
 
     if (localStorage.recipeIndex != null) {
       console.log("Remembered user's saved recipe.");
-      this.setState({ recipeIndex: localStorage.recipeIndex });
+      setRecipeIndex(localStorage.recipeIndex);
     }
-  }
+  }, []);
 
-  setRecipeIndex(i) {
-    localStorage.setItem("recipeIndex", i);
-    this.setState({ recipeIndex: i });
-  }
+  const search = recipesDidLoad ? (
+    <Search recipes={loadedRecipes} onClick={setRecipeIndex} />
+  ) : (
+    <Loading />
+  );
+  const recipe = recipesDidLoad ? (
+    <Recipe recipes={loadedRecipes} index={recipeIndex} />
+  ) : (
+    <Loading />
+  );
 
-  getNumRecipes() {
-    return this.state.loadedRecipes.length;
-  }
-
-  updateStatus(status) {
-    this.setState({ uploadStatus: status });
-  }
-
-  render() {
-    const search = this.state.recipesDidLoad ? (
-      <Search recipes={this.state.loadedRecipes} onClick={this.setRecipeIndex} />
-    ) : (
-      <Loading />
-    );
-    const recipe = this.state.recipesDidLoad ? (
-      <Recipe recipes={this.state.loadedRecipes} index={this.state.recipeIndex} />
-    ) : (
-      <Loading />
-    );
-
-    return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/Search" element={search} />
-            <Route path="/Upload" element={<Upload
-              socket={socket}
-              status={this.state.uploadStatus}
-              update={this.updateStatus}
-              setRecipeIndex={this.setRecipeIndex}
-              getNumRecipes={this.getNumRecipes} />}
-            />
-            <Route path="/Recipe" element={recipe} />
-            <Route path="/About" element={<About />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    );
-  }
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/Search" element={search} />
+          <Route path="/Upload" element={<Upload
+            socket={socket}
+            status={uploadStatus}
+            update={setUploadStatus}
+            setRecipeIndex={setRecipeIndex}
+            getNumRecipes={loadedRecipes.length} />}
+          />
+          <Route path="/Recipe" element={recipe} />
+          <Route path="/About" element={<About />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App;
