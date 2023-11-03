@@ -1,7 +1,5 @@
 # recipe-book
 
-# RECIPE BOOK (thinking of a better title)
-
 A simple recipe book, allowing users to search and upload recipes.
 
 Preview of recipe book on laptop:
